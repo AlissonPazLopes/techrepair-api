@@ -1,0 +1,38 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+
+spring:
+  application:
+    name: techrepair-api
+
+  # Configuração do Banco de Dados PostgreSQL
+  datasource:
+    url: jdbc:postgresql://localhost:5432/techrepair_db
+    username: techrepair_user
+    password: techrepair_pass
+    driver-class-name: org.postgresql.Driver
+
+  # Configuração JPA / Hibernate
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
+
+  # Configuração de Migração Flyway
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+
+# Logs da Aplicação
+logging:
+  level:
+    root: INFO
+    com.techrepair.api: DEBUG
+    org.hibernate.SQL: DEBUG
