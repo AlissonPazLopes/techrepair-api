@@ -1,5 +1,7 @@
 package com.techrepair.api.controller;
 
+import com.techrepair.api.dto.ItemOrdemServicoRequestDTO;
+import com.techrepair.api.dto.ItemOrdemServicoResponseDTO;
 import com.techrepair.api.dto.OrdemServicoDiagnosticoDTO;
 import com.techrepair.api.dto.OrdemServicoRequestDTO;
 import com.techrepair.api.dto.OrdemServicoResponseDTO;
@@ -55,5 +57,26 @@ public class OrdemServicoController {
             @PathVariable Long id,
             @Valid @RequestBody OrdemServicoStatusDTO dto) {
         return ResponseEntity.ok(ordemServicoService.alterarStatus(id, dto));
+    }
+
+    @PostMapping("/{osId}/itens")
+    public ResponseEntity<ItemOrdemServicoResponseDTO> adicionarItem(
+            @PathVariable Long osId,
+            @Valid @RequestBody ItemOrdemServicoRequestDTO dto) {
+        ItemOrdemServicoResponseDTO criado = ordemServicoService.adicionarItem(osId, dto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(criado);
+    }
+
+    @GetMapping("/{osId}/itens")
+    public ResponseEntity<List<ItemOrdemServicoResponseDTO>> listarItens(@PathVariable Long osId) {
+        return ResponseEntity.ok(ordemServicoService.listarItens(osId));
+    }
+
+    @DeleteMapping("/{osId}/itens/{itemId}")
+    public ResponseEntity<Void> removerItem(
+            @PathVariable Long osId,
+            @PathVariable Long itemId) {
+        ordemServicoService.removerItem(osId, itemId);
+        return ResponseEntity.noContent().build();
     }
 }
