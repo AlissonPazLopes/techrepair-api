@@ -1,0 +1,16 @@
+package com.techrepair.api.repository;
+
+import com.techrepair.api.entity.ItemOrdemServico;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
+import java.util.Optional;
+
+@Repository
+public interface ItemOrdemServicoRepository extends JpaRepository<ItemOrdemServico, Long> {
+
+    List<ItemOrdemServico> findByOrdemServicoId(Long ordemServicoId);
+
+    Optional<ItemOrdemServico> findByIdAndOrdemServicoId(Long id, Long ordemServicoId);
+}
