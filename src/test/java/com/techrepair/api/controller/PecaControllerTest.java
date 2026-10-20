@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@org.springframework.security.test.context.support.WithMockUser(roles = "ADMIN")
 class PecaControllerTest {
 
     @Autowired
