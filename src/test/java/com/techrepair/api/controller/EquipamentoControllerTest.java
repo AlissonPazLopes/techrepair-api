@@ -24,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
+@org.springframework.security.test.context.support.WithMockUser(roles = "ATENDENTE")
 class EquipamentoControllerTest {
 
     @Autowired
