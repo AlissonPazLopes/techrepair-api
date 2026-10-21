@@ -7,6 +7,8 @@ import com.techrepair.api.dto.UsuarioResponseDTO;
 import com.techrepair.api.entity.Usuario;
 import com.techrepair.api.repository.UsuarioRepository;
 import com.techrepair.api.security.TokenService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -24,6 +26,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping("/api/auth")
 @RequiredArgsConstructor
+@Tag(name = "Autenticação", description = "Endpoints públicos para login e registro de usuários com JWT")
 public class AuthController {
 
     private final AuthenticationManager authenticationManager;
@@ -32,6 +35,10 @@ public class AuthController {
     private final TokenService tokenService;
 
     @PostMapping("/login")
+    @Operation(
+            summary = "Autenticar usuário e gerar token JWT",
+            description = "Valida as credenciais de e-mail e senha do usuário e retorna um token Bearer JWT válido por 2 horas."
+    )
     public ResponseEntity<AuthTokenResponseDTO> login(@Valid @RequestBody AuthLoginRequestDTO dto) {
         var authToken = new UsernamePasswordAuthenticationToken(dto.email(), dto.senha());
         var authentication = authenticationManager.authenticate(authToken);
@@ -51,6 +58,10 @@ public class AuthController {
 
     @PostMapping("/registrar")
     @Transactional
+    @Operation(
+            summary = "Registrar novo usuário",
+            description = "Cadastra um novo usuário no sistema (ADMIN, TECNICO ou ATENDENTE) com senha criptografada via BCrypt."
+    )
     public ResponseEntity<UsuarioResponseDTO> registrar(@Valid @RequestBody AuthRegistroRequestDTO dto) {
         if (usuarioRepository.existsByEmail(dto.email())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Já existe um usuário cadastrado com este e-mail");
